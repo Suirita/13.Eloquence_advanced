@@ -1,7 +1,12 @@
 ## **Analysis & Design**
 
-- Presented by: SUIRITA Fahd & BOUGTOUB Samia
-- Framed by: ESSARRAJ Fouad
+- Presented by:
+  - SUIRITA Fahd
+  - BOUGTOUB Samia
+  - TRIBAK Ayoub
+  - BAKALI Ayoub
+- Framed by:
+  - ESSARRAJ Fouad
 
 ---
 
@@ -24,47 +29,55 @@
   </tr>
   <tr>
     <td>Monday</td>
-    <td>Tuto-10</td>
-    <td>Tuto-11</td>
-    <td>Tuto-12</td>
+    <td>Planning</td>
+    <td>Prototype</td>
+    <td>Installation</td>
   </tr>
   <tr>
     <td>Tuesday</td>
     <td>-</td>
     <td>-</td>
-    <td>Tuto-13</td>
+    <td>Analysis</td>
   </tr>
   <tr>
     <td>Wednesday</td>
-    <td>Tuto-14</td>
-    <td>Tuto-15</td>
-    <td>Tuto-16</td>
+    <td>Design</td>
+    <td>Realization</td>
+    <td>Realization</td>
   </tr>
   <tr>
     <td>Thursday</td>
-    <td>Prototype</td>
-    <td>Prototype</td>
-    <td>Prototype</td>
+    <td>Realization</td>
+    <td>Realization</td>
+    <td>Realization</td>
   </tr>
   <tr>
     <td>Friday</td>
-    <td>Realization</td>
-    <td>RealiZation</td>
+    <td>Presentation</td>
+    <td>Presentation</td>
     <td>-</td>
   </tr>
 </table>
 
 ---
 
-### **4. Learning:**
-
-|||
-
-### **4. Learning:**
+### **4. Needs:**
 
 ---
 
-### **5. Prototype:**
+### **5. Analysis:**
+
+---
+
+### **6. Design:**
+
+---
+
+### **7. Learning:**
+
+---
+
+### **8. Prototype:**
 
 - view articles
 - add article
@@ -72,8 +85,8 @@
 
 ---
 
-### **6. Realization:**
+### **9. Realization:**
 
 ---
 
-### **7. Conclusion:**
+### **10. Conclusion:**
