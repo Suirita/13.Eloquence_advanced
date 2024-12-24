@@ -1,0 +1,24 @@
+@startuml
+
+left to right direction
+actor User as user
+actor Admin as admin
+
+rectangle "Blog System" {
+    usecase "View Articles" as UC_Home
+    usecase "View Article Details" as UC_Details
+    usecase "View All Articles" as UC_Dashboard
+    usecase "View Single Article" as UC_ViewArticle
+    usecase "Edit an Article" as UC_EditArticle
+    usecase "Create an Article" as UC_CreateArticle
+}
+
+user --> UC_Home
+user --> UC_Details
+
+admin --> UC_Dashboard
+admin --> UC_ViewArticle
+admin --> UC_EditArticle
+admin --> UC_CreateArticle
+
+@enduml
