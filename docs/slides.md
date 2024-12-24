@@ -1,4 +1,4 @@
-## **Analysis & Design**
+## **Blog app**
 
 - Presented by:
   - SUIRITA Fahd
@@ -12,15 +12,19 @@
 
 ### **1. Introduction**
 
+![Introduction](assets/Introduction.png)
+
 ---
 
 ### **2-2TUP Methodology:**
+
+![2_TUP](assets/2_TUP.png)
 
 ---
 
 ### **3. Planning:**
 
-<table style="font-size: 42px" >
+<table style="font-size: 38px" >
   <tr>
     <th></th>
     <th>1</th>
@@ -61,23 +65,27 @@
 
 ---
 
-### **4. Needs:**
+### **4. Analyse:**
+
+![Analyse](assets/Analyse.svg)
 
 ---
 
-### **5. Analysis:**
+### **5. Design:**
+
+![Design](assets/Design.svg)
 
 ---
 
-### **6. Design:**
+### **6. Learning:**
+
+- laravel/ui
+- spatie
+- polymorphism
 
 ---
 
-### **7. Learning:**
-
----
-
-### **8. Prototype:**
+### **7. Prototype:**
 
 - view articles
 - add article
@@ -85,8 +93,8 @@
 
 ---
 
-### **9. Realization:**
+### **8. Realization:**
 
 ---
 
-### **10. Conclusion:**
+### **9. Conclusion:**
