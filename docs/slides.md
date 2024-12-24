@@ -65,15 +65,23 @@
 
 ---
 
-### **4. Analysis:**
+### **4. Analyse:**
+
+![Analyse](assets/Analyse.svg)
 
 ---
 
 ### **5. Design:**
 
+![Design](assets/Design.svg)
+
 ---
 
 ### **6. Learning:**
+
+- laravel/ui
+- spatie
+- polymorphism
 
 ---
 
