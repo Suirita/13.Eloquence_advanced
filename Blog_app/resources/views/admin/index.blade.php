@@ -1,6 +1,6 @@
 
 <!-- dashboard.blade.php -->
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
     <h1>Gestion des Articles</h1>
