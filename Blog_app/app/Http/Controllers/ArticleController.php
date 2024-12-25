@@ -13,12 +13,38 @@ class ArticleController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request)
   {
+    $query = Article::query();
 
+    // Filtrer par catégorie
+    if ($request->has('category') && $request->category != '') {
+        $query->where('category_id', $request->category);
+    }
+
+    // Filtrer par tag
+    if ($request->has('tag') && $request->tag != '') {
+        $query->whereHas('tags', function ($query) use ($request) {
+            $query->where('tags.id', $request->tag);
+        });
+    }
+
+    // Filtrer par recherche dans le titre ou le contenu
+    if ($request->has('search') && $request->search != '') {
+        $query->where(function ($query) use ($request) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('content', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    // Paginer les résultats
+    $articles = $query->paginate(10);
+
+    // Ajouter les paramètres de filtrage à la pagination
+    $articles->appends($request->all());
     $categories = \App\Models\Category::all();
     $tags = \App\Models\Tag::all();
-    $articles = \App\Models\Article::paginate(10);
+   
 
     if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
 
