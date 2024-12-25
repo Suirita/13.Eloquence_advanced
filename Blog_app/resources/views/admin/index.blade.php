@@ -1,17 +1,19 @@
 @extends('layouts.admin')
 
 @section('content')
+    <div class="container">
+
     <h1>Gestion des Articles</h1>
 
     <div class="card">
-        <div class="card-header d-flex mb-3">
+        <div class="card-header d-flex pb-0 pt-3">
                 <!-- input search --> 
                 <form method="GET" action="{{ route('articles.index') }}" class="d-flex mb-3 ">
                     <div class="form-group  ">
                         <input type="text" name="search" id="search" class="form-control " value="{{ request('search') }}" placeholder="Rechercher un article">
                     </div>
                     <div class="form-group  ">
-                    <button type="submit" class="btn btn-primary mx-3">Recherche</button>
+                    <button type="submit" class="btn btn-primary mx-3">Rechercher</button>
                     </div>
                 </form>
 
@@ -42,11 +44,9 @@
 
         </div>
         <!-- /.card-header -->
-         <div class="d-flex justify-content-between">
-         <h3 class="card-title">Liste des Articles</h3>
-         <div class="card-tools m-2">
-                <a href="{{route('articles.create')}}" class="btn btn-success">Ajouter un Article</a>
-            </div>
+         <div class="d-flex justify-content-between mx-3 mt-3">
+             <h3 class="card-title my-0">Liste des Articles</h3>
+            <a href="{{route('articles.create')}}" class="btn btn-success">Ajouter un Article</a>  
          </div>
         
         <div class="card-body">
@@ -102,4 +102,5 @@
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
+    </div>
 @stop
