@@ -15,3 +15,12 @@ Route::prefix('articles')->group(function(){
     Route::delete('/{article}',[ ArticleController::class , 'destroy'])->name('articles.destroy');
 });
 Route::get('/',[ ArticleController::class , 'index']);
+
+Route::get('/test' , function(){
+    $user = Auth::user();
+    if ($user->roles->contains('name', 'admin')) {
+        echo 'L\'utilisateur est un administrateur.';
+    }
+    ;
+    
+});

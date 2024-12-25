@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -13,15 +14,17 @@ class ArticleController extends Controller
    */
   public function index()
   {
-    //$articles = \App\Models\Article::paginate(10);
-    // if(Auth::check() && Auth::user()->role == 'admin'){
-    //   
-    //   return view('admin.index', compact('articles'));
-    // }else{
-    //   return view('public.index');
-    // }
-    $articles = \App\Models\Article::paginate(5);
-    return view('admin.index', compact('articles'));
+    $categories = \App\Models\Category::all();
+    $tags= \App\Models\Tag::all();
+    $articles = \App\Models\Article::paginate(10);
+
+    if(Auth::check() && Auth::user()->roles->contains('name', 'admin')){
+      
+      return view('admin.index', compact('articles' , 'categories', 'tags'));
+    }else{
+      return view('public.index');
+    }
+  
   }
 
   /**
