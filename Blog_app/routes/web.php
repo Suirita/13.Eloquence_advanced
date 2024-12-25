@@ -17,3 +17,4 @@ Route::prefix('articles')->group(function () {
 });
 
 Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
+
