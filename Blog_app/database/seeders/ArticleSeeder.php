@@ -14,5 +14,6 @@ class ArticleSeeder extends Seeder
     {
         //
         \App\Models\Article::factory(10)->create();
+        
     }
 }

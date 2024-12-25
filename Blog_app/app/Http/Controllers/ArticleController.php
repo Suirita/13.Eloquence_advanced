@@ -20,8 +20,10 @@ class ArticleController extends Controller
     // }else{
     //   return view('public.index');
     // }
-    $articles = \App\Models\Article::paginate(5);
-    return view('admin.index', compact('articles'));
+    $articles = Article::paginate(5);
+    // return view('admin.index', compact('articles'));
+    // $articles = Article::with(['category', 'tags', 'user'])->paginate(5);
+    return view ('public.index', compact('articles'));
     
   }
 
