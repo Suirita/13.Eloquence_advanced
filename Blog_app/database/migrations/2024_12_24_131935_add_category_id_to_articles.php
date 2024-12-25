@@ -6,24 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::table('articles', function (Blueprint $table) {
-            //
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::table('articles', function (Blueprint $table) {
+      $table->foreignId('category_id')->constrained()->onDelete('cascade');
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('articles', function (Blueprint $table) {
-            //
-        });
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::table('articles', function (Blueprint $table) {
+      //
+    });
+  }
 };
