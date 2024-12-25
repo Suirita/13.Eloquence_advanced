@@ -48,7 +48,7 @@ class ArticleController extends Controller
   public function show(string $id)
   {
     $article = Article::where('id', $id)->firstOrFail();
-    if (Auth::check() && Auth::user()->role == 'admin') {
+    if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
       return view('admin.show', compact('article'));
     } else {
       return view('public.show', compact('article'));
