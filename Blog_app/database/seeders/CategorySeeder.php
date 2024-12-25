@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Article;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Category;
 
-class ArticleSeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Article::factory()->count(100)->create();
+        //
+        Category::factory()->count(20)->create();
     }
 }

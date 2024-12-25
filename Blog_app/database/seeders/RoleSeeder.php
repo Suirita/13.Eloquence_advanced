@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Article;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
-class ArticleSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Article::factory()->count(100)->create();
+        //
+        Role::create(['name' => 'admin']);
     }
 }

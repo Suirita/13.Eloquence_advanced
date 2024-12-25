@@ -21,6 +21,7 @@ class ArticleController extends Controller
     // }else{
     //   return view('public.index');
     // }
+
     $articles = \App\Models\Article::paginate(5);
     return view('admin.index', compact('articles'));
   }
@@ -73,7 +74,12 @@ class ArticleController extends Controller
    */
   public function show(string $id)
   {
-    //
+    $article = Article::where('id', $id)->firstOrFail();
+    if (Auth::check() && Auth::user()->role == 'admin') {
+      return view('admin.show', compact('article'));
+    } else {
+      return view('public.show', compact('article'));
+    }
   }
 
   /**

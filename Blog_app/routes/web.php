@@ -15,4 +15,5 @@ Route::prefix('articles')->group(function () {
   Route::put('/{article}', [ArticleController::class, 'update'])->name('articles.update');
   Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
-Route::get('/', [ArticleController::class, 'index']);
+
+Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
