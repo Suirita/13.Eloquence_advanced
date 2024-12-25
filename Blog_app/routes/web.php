@@ -22,4 +22,4 @@ Route::get('comments.store', [CommentController::class, 'store'])->name('comment
 Route::get('comments.{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
-
+Route::get('/{article}',[ ArticleController::class , 'show'])->name('public.show');
