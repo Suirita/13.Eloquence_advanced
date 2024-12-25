@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('content');
-         
-            $table->timestamps();
+        Schema::table('comments', function (Blueprint $table) {
+            //
+            $table->unsignedBigInteger('user_id')->nullable();
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('articles');
+        Schema::table('comments', function (Blueprint $table) {
+            //
+        });
     }
 };

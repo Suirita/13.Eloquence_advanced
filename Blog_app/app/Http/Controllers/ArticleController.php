@@ -20,11 +20,10 @@ class ArticleController extends Controller
     // }else{
     //   return view('public.index');
     // }
-    $articles = Article::paginate(5);
-    // return view('admin.index', compact('articles'));
-    // $articles = Article::with(['category', 'tags', 'user'])->paginate(5);
-    return view ('public.index', compact('articles'));
-    
+
+    $articles = \App\Models\Article::paginate(5);
+    return view('admin.index', compact('articles'));
+
   }
 
   /**
@@ -48,7 +47,12 @@ class ArticleController extends Controller
    */
   public function show(string $id)
   {
-    //
+    $article = Article::where('id', $id)->firstOrFail();
+    if (Auth::check() && Auth::user()->role == 'admin') {
+      return view('admin.show', compact('article'));
+    } else {
+      return view('public.show', compact('article'));
+    }
   }
 
   /**
@@ -73,9 +77,8 @@ class ArticleController extends Controller
   public function destroy(string $id)
   {
     //
-    $article= Article::where('id' , $id);
+    $article = Article::where('id', $id);
     $article->delete();
     return redirect()->route('articles.index')->with('success', 'L\'article a bien été supprimé');
-
   }
 }
