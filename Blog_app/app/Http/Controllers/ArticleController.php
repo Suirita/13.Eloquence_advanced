@@ -13,6 +13,7 @@ class ArticleController extends Controller
   /**
    * Display a listing of the resource.
    */
+
   public function index(Request $request)
   {
     $query = Article::query();
@@ -103,11 +104,13 @@ class ArticleController extends Controller
   public function show(string $id)
   {
     $article = Article::where('id', $id)->firstOrFail();
-    if (Auth::check() && Auth::user()->role == 'admin') {
-      return view('admin.show', compact('article'));
-    } else {
-      return view('public.show', compact('article'));
-    }
+    return view('admin.show', compact('article'));
+    
+    // if (Auth::check() && Auth::user()->role == 'admin') {
+    //   return view('admin.show', compact('article'));
+    // } else {
+    //   return view('public.show', compact('article'));
+    // }
   }
 
   /**
