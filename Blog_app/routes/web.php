@@ -15,3 +15,4 @@ Route::prefix('articles')->group(function(){
     Route::delete('/{article}',[ ArticleController::class , 'destroy'])->name('articles.destroy');
 });
 Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
+Route::get('/{article}',[ ArticleController::class , 'show'])->name('public.show');

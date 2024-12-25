@@ -12,7 +12,7 @@ class ArticleController extends Controller
    * Display a listing of the resource.
    */
   public function index()
-  {
+  { 
     //$articles = \App\Models\Article::paginate(10);
     // if(Auth::check() && Auth::user()->role == 'admin'){
     //   
@@ -21,8 +21,9 @@ class ArticleController extends Controller
     //   return view('public.index');
     // }
 
-    $articles = \App\Models\Article::paginate(5);
-    return view('admin.index', compact('articles'));
+    $articles = \App\Models\Article::with('category','tags')->paginate(5);
+    return view('public.index', compact('articles'));
+    // return view('admin.index', compact('articles'));
 
   }
 
@@ -48,11 +49,13 @@ class ArticleController extends Controller
   public function show(string $id)
   {
     $article = Article::where('id', $id)->firstOrFail();
-    if (Auth::check() && Auth::user()->role == 'admin') {
-      return view('admin.show', compact('article'));
-    } else {
-      return view('public.show', compact('article'));
-    }
+    return view('admin.show', compact('article'));
+    
+    // if (Auth::check() && Auth::user()->role == 'admin') {
+    //   return view('admin.show', compact('article'));
+    // } else {
+    //   return view('public.show', compact('article'));
+    // }
   }
 
   /**
