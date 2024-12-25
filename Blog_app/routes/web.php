@@ -24,4 +24,5 @@ Route::prefix('tags')->group(function () {
   Route::delete('/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 });
 
-Route::get('/', [ArticleController::class, 'index'])->name('public.index');
+Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
+Route::get('/{article}',[ ArticleController::class , 'show'])->name('public.show');
