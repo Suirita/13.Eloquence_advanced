@@ -17,16 +17,15 @@ class ArticleController extends Controller
   {
 
     $categories = \App\Models\Category::all();
-    $tags= \App\Models\Tag::all();
+    $tags = \App\Models\Tag::all();
     $articles = \App\Models\Article::paginate(10);
 
-    if(Auth::check() && Auth::user()->roles->contains('name', 'admin')){
-      
-      return view('admin.index', compact('articles' , 'categories', 'tags'));
-    }else{
-      return view('public.index');
+    if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
+
+      return view('admin.index', compact('articles', 'categories', 'tags'));
+    } else {
+      return view('public.index', compact('articles', 'categories', 'tags'));
     }
-  
   }
 
   /**
@@ -68,7 +67,7 @@ class ArticleController extends Controller
       }
       $article->tags()->attach($tagIds);
     }
-    
+
     return redirect()->route('articles.index')->with('success', 'L\'article a bien été créé');
   }
 

@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+
 @section('content')
 <div class="container my-10">
     <!-- Header -->
