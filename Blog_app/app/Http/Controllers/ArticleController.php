@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
@@ -77,10 +78,16 @@ class ArticleController extends Controller
   public function show(string $id)
   {
     $article = Article::where('id', $id)->firstOrFail();
+    $commentableId = $article->id;
+    $commentableType = Article::class;
+    $categories = $article->category;
+    $tags = $article->tags;
+    $comments = $article->comments;
+
     if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-      return view('admin.show', compact('article'));
+      return view('admin.show', compact('article', 'commentableId', 'commentableType', 'categories', 'tags', 'comments'));
     } else {
-      return view('public.show', compact('article'));
+      return view('public.show', compact('article', 'commentableId', 'commentableType', 'categories', 'tags', 'comments'));
     }
   }
 
