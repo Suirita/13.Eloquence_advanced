@@ -1,5 +1,3 @@
-
-<!-- dashboard.blade.php -->
 @extends('layouts.admin')
 
 @section('content')
@@ -10,7 +8,7 @@
             <div class="card-tools m-2">
                 <a href="{{route('articles.create')}}" class="btn btn-success">Ajouter un Article</a>
             </div>
-                    
+
             <!-- input search -->
             <form method="GET" action="{{ route('articles.index') }}" class="d-flex mb-3">
                 <div class="form-group mr-2 ">
