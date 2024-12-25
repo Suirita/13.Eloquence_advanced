@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Tag;
 
 class ArticleController extends Controller
 {
@@ -15,7 +16,7 @@ class ArticleController extends Controller
   {
     //$articles = \App\Models\Article::paginate(10);
     // if(Auth::check() && Auth::user()->role == 'admin'){
-    //   
+    //
     //   return view('admin.index', compact('articles'));
     // }else{
     //   return view('public.index');
@@ -23,7 +24,6 @@ class ArticleController extends Controller
 
     $articles = \App\Models\Article::paginate(5);
     return view('admin.index', compact('articles'));
-
   }
 
   /**
@@ -31,7 +31,7 @@ class ArticleController extends Controller
    */
   public function create()
   {
-    //
+    return view('admin.create');
   }
 
   /**
@@ -39,7 +39,34 @@ class ArticleController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $request->validate([
+      'title' => 'required|string|max:255',
+      'category' => 'required|string|max:255',
+      'tags' => 'nullable|string',
+      'content' => 'required|string',
+    ]);
+
+    $article = new Article();
+    $article->title = $request->title;
+    $article->category = $request->category;
+    $article->content = $request->content;
+    $article->user_id = Auth::id();
+    $article->save();
+
+    if ($request->filled('tags')) {
+      $tags = explode(',', $request->tags);
+      $tagIds = [];
+      foreach ($tags as $tagName) {
+        $tagName = trim($tagName);
+        if (!empty($tagName)) {
+          $tag = Tag::firstOrCreate(['name' => $tagName]);
+          $tagIds[] = $tag->id;
+        }
+      }
+      $article->tags()->attach($tagIds);
+    }
+    
+    return redirect()->route('articles.index')->with('success', 'L\'article a bien été créé');
   }
 
   /**
@@ -58,17 +85,52 @@ class ArticleController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(string $id)
+  public function edit($id)
   {
-    //
+    $article = Article::findOrFail($id);
+    $tags = $article->tags->pluck('name')->toArray();
+
+    return view('admin.edit', [
+      'article' => $article,
+      'tags' => implode(',', $tags),
+    ]);
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(Request $request, $id)
   {
-    //
+    $request->validate([
+      'title' => 'required|string|max:255',
+      'category' => 'required|string|max:255',
+      'tags' => 'nullable|string',
+      'content' => 'required|string',
+    ]);
+
+    $article = Article::findOrFail($id);
+
+    $article->title = $request->title;
+    $article->category = $request->category;
+    $article->content = $request->content;
+    $article->save();
+
+    if ($request->filled('tags')) {
+      $tags = explode(',', $request->tags);
+      $tagIds = [];
+      foreach ($tags as $tagName) {
+        $tagName = trim($tagName);
+        if (!empty($tagName)) {
+          $tag = Tag::firstOrCreate(['name' => $tagName]);
+          $tagIds[] = $tag->id;
+        }
+      }
+      $article->tags()->sync($tagIds);
+    } else {
+      $article->tags()->detach();
+    }
+
+    return redirect()->route('articles.index')->with('success', 'L\'article a bien été modifié');
   }
 
   /**
