@@ -72,3 +72,64 @@ $middleware->alias([
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
 ```
+
+## Cloning
+
+- Clone the Project
+
+```bash
+git clone https://github.com/SolicodeDev/13.Eloquence_advanced.git
+cd 13.Eloquence_advanced
+```
+
+- Install the dependencies
+
+```bash
+composer install
+npm install
+```
+
+- Copy the `.env.example` file to `.env`
+
+```bash
+cp .env.example .env
+```
+
+- Configure the `.env` file
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=Blog_app
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+- Generate the key
+
+```bash
+php artisan key:generate
+```
+
+- Migrate the database
+
+```bash
+php artisan migrate
+```
+
+- Seed the database
+
+```bash
+php artisan db:seed
+```
+
+- Run the application
+
+```bash
+php artisan serve
+```
+
+## Presentation
+
+[Presentation](https://suirita.github.io/13.Eloquence_advanced/)
