@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Models\Comment;
 use App\Http\Controllers\TagController;
@@ -27,6 +28,13 @@ Route::prefix('tags')->group(function () {
   Route::get('/create', [TagController::class, 'create'])->name('tags.create');
   Route::post('/store', [TagController::class, 'store'])->name('tags.store');
   Route::delete('/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+});
+
+Route::prefix('categories')->group(function () {
+  Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
+  Route::get('/create', [CategoryController::class, 'create'])->name('categories.create');
+  Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
+  Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
 Route::get('/',[ ArticleController::class , 'index'])->name('public.index');
