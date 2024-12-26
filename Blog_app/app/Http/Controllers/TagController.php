@@ -11,13 +11,14 @@ class TagController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request)
   {
-    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-      return redirect()->route('articles.index');
+    $query = Tag::query();
+    if($request->has('search') && $request->search != ''){
+      $query->where('name', 'like', '%' . $request->search . '%');
     }
 
-    $tags = Tag::paginate(10);
+    $tags = $query->paginate(10);
     return view('admin.tag.index', compact('tags'));
   }
 
@@ -26,10 +27,6 @@ class TagController extends Controller
    */
   public function create()
   {
-    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-      return redirect()->route('articles.index');
-    }
-
     return view('admin.tag.create');
   }
 
@@ -38,10 +35,6 @@ class TagController extends Controller
    */
   public function store(Request $request)
   {
-    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-      return redirect()->route('articles.index');
-    }
-
     $request->validate([
       'name' => 'required|string|max:255',
     ]);
@@ -58,9 +51,6 @@ class TagController extends Controller
    */
   public function destroy(string $id)
   {
-    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
-      return redirect()->route('article.index');
-    }
 
     $tag = Tag::findOrFail($id);
     $tag->delete();
