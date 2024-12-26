@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $articles = Article::all();
-        $categories = Category::all();
-        return view('admin.category.index', compact('categories' , 'articles'));
+        $query = Category::query();
+        if($request->has('search') && $request->search != ''){
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        $categories = $query->paginate(10);
+        return view('admin.category.index', compact('categories'));
+        
     }
 
     /**
@@ -24,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -32,7 +36,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $category= new Category();
+        $category->name = $request->name ;
+        $category->save();
+        return redirect()->route('categories.index')->with('success', 'Catégorie créée avec succès');
     }
 
     /**
@@ -40,7 +50,8 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+    
+  
     }
 
     /**
@@ -65,5 +76,8 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
+        $category = Category::where('id', $id)->first();
+        $category->delete();
+        return redirect()->route('categories.index')->with('success', 'Catégorie supprimée avec succès');
     }
 }
