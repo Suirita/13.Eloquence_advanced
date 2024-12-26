@@ -4,20 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
-
+use App\Models\User;
 
 class ArticleController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
-
+ 
   public function index(Request $request)
   {
     $query = Article::query();
+    
+    $ArticleCount= Article::count();
+    $CommentCount = Comment::count();
+    $UserCount = User::count();
 
     // Filtrer par catégorie
     if ($request->has('category') && $request->category != '') {
@@ -50,7 +55,9 @@ class ArticleController extends Controller
 
     if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
 
-      return view('admin.index', compact('articles', 'categories', 'tags'));
+      return view('admin.index', compact('articles', 'categories', 'tags', 'ArticleCount', 'CommentCount', 'UserCount'));
+      // return view('components.admin-chart', compact( 'ArticleCount', 'CommentCount', 'UserCount'));
+
     } else {
       return view('public.index', compact('articles', 'categories', 'tags'));
     }
