@@ -12,13 +12,13 @@
 
 ### **1. Introduction**
 
-![Introduction](assets/Introduction.png)
+<img src="assets/Introduction.avif" alt="Introduction" style="width: 600px; height: auto;" />
 
 ---
 
 ### **2-2TUP Methodology:**
 
-![2_TUP](assets/2_TUP.png)
+<img src="assets/2_TUP.png" alt="Introduction" style="width: 600px; height: auto;" />
 
 ---
 
@@ -67,13 +67,13 @@
 
 ### **4. Analyse:**
 
-![Analyse](assets/Analyse.svg)
+<img src="assets/Analyse.svg" alt="Introduction" style="width: 350px; height: auto;" />
 
 ---
 
 ### **5. Design:**
 
-![Design](assets/Design.svg)
+<img src="assets/Design.svg" alt="Introduction" style="width: 400px; height: auto;" />
 
 ---
 
@@ -81,7 +81,6 @@
 
 - laravel/ui
 - spatie
-- polymorphism
 
 ---
 
@@ -98,3 +97,5 @@
 ---
 
 ### **9. Conclusion:**
+
+![Conclusion](assets/Conclusion.svg)
