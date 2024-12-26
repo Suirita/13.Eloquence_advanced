@@ -21,15 +21,13 @@
 
         <!-- categories -->
         <div class="mt-4 text-sm text-gray-500">
-            <p>Categories:
-                @if($article->categories && $article->categories->isNotEmpty())
-                <span class="font-medium text-gray-600">
-                    @foreach($article->categories as $category)
-                    {{ $category->name }}@if(!$loop->last), @endif
-                    @endforeach
+            <p>Catégorie:
+                @if($article->category)
+                <span class="font-medium text-gray-600">                  
+                    {{ $article->category->name }}
                 </span>
                 @else
-                <span class="font-medium text-gray-600">No categories available</span>
+                <span class="font-medium text-gray-600">No category available</span>
                 @endif
             </p>
         </div>
@@ -37,7 +35,7 @@
         <!-- tags -->
         <div class="mt-4 text-sm text-gray-500">
             <p>Tags:
-                @if($article->tags && $article->tags->isNotEmpty())
+                @if($article->tags)
                 <span class="font-medium text-gray-600">
                     @foreach($article->tags as $tag)
                     {{ $tag->name }}@if(!$loop->last), @endif
@@ -73,6 +71,7 @@
                 <div class="mb-4">
                     <h2 class="text-3xl font-semibold text-gray-800 text-center">Commentaires</h2>
 
+                    @if(Auth::check())
                     <form action="{{ route('comments.store') }}" method="GET" class="inline">
                         @csrf
                         <input type="hidden" name="commentable_id" value="{{ $commentableId }}">
@@ -80,10 +79,11 @@
                         <input type="text" name="text" id="addComment" class="flex w-full space-x-2 my-2 form-control border p-2 rounded" placeholder="Tapez un commentaire..." required>
                         <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded"> Ajouter </button>
                     </form>
+                    @endif
                 </div>
 
                 <!-- Display Comments -->
-                @foreach($comments as $comment)
+                @foreach($article->comments as $comment)
                 <div class="bg-white rounded-lg shadow mb-4">
                     <div class="p-4">
                         <p class="text-gray-700">{{$comment->text}}</p>

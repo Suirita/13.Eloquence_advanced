@@ -25,12 +25,10 @@
 
             <!-- Categories -->
             <div class="mt-4 text-sm text-muted">
-                <p>Categories:
-                    @if($article->categories && $article->categories->isNotEmpty())
+                <p>Catégorie:
+                    @if($article->category)
                     <span class="font-weight-semibold text-dark">
-                        @foreach($article->categories as $category)
-                        {{ $category->name }}@if(!$loop->last), @endif
-                        @endforeach
+                        {{$article->category->name }}
                     </span>
                     @else
                     <span class="font-weight-semibold text-muted">No categories available</span>
@@ -41,7 +39,7 @@
             <!-- Tags -->
             <div class="mt-4 text-sm text-muted">
                 <p>Tags:
-                    @if($article->tags && $article->tags->isNotEmpty())
+                    @if($article->tags)
                     <span class="font-weight-semibold text-dark">
                         @foreach($article->tags as $tag)
                         {{ $tag->name }}@if(!$loop->last), @endif
@@ -99,7 +97,7 @@
                             <button type="submit" class="btn btn-success my-2">Ajouter</button>
                         </form>
                     </div>
-                    @foreach($comments as $comment)
+                    @foreach($article->comments as $comment)
                     <!-- Display Comments -->
                     <div class="card mb-4">
                         <div class="card-body">
