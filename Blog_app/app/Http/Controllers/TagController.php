@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
 
 class TagController extends Controller
@@ -12,6 +13,10 @@ class TagController extends Controller
    */
   public function index()
   {
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
     $tags = Tag::paginate(10);
     return view('admin.tag.index', compact('tags'));
   }
@@ -21,6 +26,10 @@ class TagController extends Controller
    */
   public function create()
   {
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
     return view('admin.tag.create');
   }
 
@@ -29,6 +38,10 @@ class TagController extends Controller
    */
   public function store(Request $request)
   {
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
     $request->validate([
       'name' => 'required|string|max:255',
     ]);
@@ -45,6 +58,10 @@ class TagController extends Controller
    */
   public function destroy(string $id)
   {
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('article.index');
+    }
+
     $tag = Tag::findOrFail($id);
     $tag->delete();
 
