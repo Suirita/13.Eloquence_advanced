@@ -89,7 +89,7 @@
 
                     <!-- Add Comment -->
                     <div class="form-outline mb-4">
-                        <form action="{{route('comments.store')}}" method="GET" class="d-inline">
+                        <form action="{{route('comments.store')}}" method="POST" class="d-inline">
                             @csrf
                             <input type="hidden" name="commentable_id" value="{{ $commentableId }}">
                             <input type="hidden" name="commentable_type" value="{{ $commentableType }}">
@@ -107,7 +107,7 @@
                                     <p class="small mb-0 ms-2">comment author</p>
                                 </div>
                                 <div class="d-flex align-items-center text-body">
-                                    <form action="{{route('comments.destroy', $comment->id)}}" method="GET" class="d-inline">
+                                    <form action="{{route('comments.destroy', $comment->id)}}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Supprimer</button>

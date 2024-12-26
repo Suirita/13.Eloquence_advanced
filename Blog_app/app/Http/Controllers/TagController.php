@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
 
 class TagController extends Controller
@@ -10,9 +11,14 @@ class TagController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index()
+  public function index(Request $request)
   {
-    $tags = Tag::paginate(10);
+    $query = Tag::query();
+    if($request->has('search') && $request->search != ''){
+      $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    $tags = $query->paginate(10);
     return view('admin.tag.index', compact('tags'));
   }
 
@@ -45,6 +51,7 @@ class TagController extends Controller
    */
   public function destroy(string $id)
   {
+
     $tag = Tag::findOrFail($id);
     $tag->delete();
 

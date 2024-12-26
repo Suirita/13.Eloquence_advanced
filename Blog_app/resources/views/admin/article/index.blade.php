@@ -4,6 +4,12 @@
     <div class="container">
 
     <h1>Gestion des Articles</h1>
+  
+
+    <x-admin-chart 
+    :ArticleCount="$ArticleCount"
+    :UserCount="$UserCount" 
+    :CommentCount="$CommentCount" > </x-admin-chart>
 
     <div class="card">
         <div class="card-header d-flex pb-0 pt-3">
@@ -46,13 +52,14 @@
         <!-- /.card-header -->
          <div class="d-flex justify-content-between mx-3 mt-3">
              <h3 class="card-title my-0">Liste des Articles</h3>
+             
             <a href="{{route('articles.create')}}" class="btn btn-success">Ajouter un Article</a>  
          </div>
         
-        <div class="card-body">
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+            <div class="card-body">
+                @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+                 @endif
             <table class="table table-bordered">
                 <thead>
                     <tr>

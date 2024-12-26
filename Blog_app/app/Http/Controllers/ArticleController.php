@@ -4,39 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
-
+use App\Models\User;
 
 class ArticleController extends Controller
 {
   /**
    * Display a listing of the resource.
    */
-
+ 
   public function index(Request $request)
   {
     $query = Article::query();
+    
+    $ArticleCount= Article::count();
+    $CommentCount = Comment::count();
+    $UserCount = User::count();
 
     // Filtrer par catégorie
     if ($request->has('category') && $request->category != '') {
-        $query->where('category_id', $request->category);
+      $query->where('category_id', $request->category);
     }
 
     // Filtrer par tag
     if ($request->has('tag') && $request->tag != '') {
-        $query->whereHas('tags', function ($query) use ($request) {
-            $query->where('tags.id', $request->tag);
-        });
+      $query->whereHas('tags', function ($query) use ($request) {
+        $query->where('tags.id', $request->tag);
+      });
     }
 
     // Filtrer par recherche dans le titre ou le contenu
     if ($request->has('search') && $request->search != '') {
-        $query->where(function ($query) use ($request) {
-            $query->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('content', 'like', '%' . $request->search . '%');
-        });
+      $query->where(function ($query) use ($request) {
+        $query->where('title', 'like', '%' . $request->search . '%')
+          ->orWhere('content', 'like', '%' . $request->search . '%');
+      });
     }
 
     // Paginer les résultats
@@ -46,11 +51,10 @@ class ArticleController extends Controller
     $articles->appends($request->all());
     $categories = \App\Models\Category::all();
     $tags = \App\Models\Tag::all();
-   
+
 
     if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-
-      return view('admin.index', compact('articles', 'categories', 'tags'));
+      return view('admin.article.index', compact('articles', 'categories', 'tags','ArticleCount','CommentCount', 'UserCount' ));
     } else {
       return view('public.index', compact('articles', 'categories', 'tags'));
     }
@@ -61,7 +65,14 @@ class ArticleController extends Controller
    */
   public function create()
   {
-    return view('admin.create');
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
+    $categories = Category::all();
+    $allTags = Tag::all();
+
+    return view('admin.article.create', compact('categories', 'allTags'));
   }
 
   /**
@@ -69,32 +80,26 @@ class ArticleController extends Controller
    */
   public function store(Request $request)
   {
-    $request->validate([
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
+    $validated = $request->validate([
       'title' => 'required|string|max:255',
-      'category' => 'required|string|max:255',
-      'tags' => 'nullable|string',
+      'category' => 'required|exists:categories,id',
       'content' => 'required|string',
+      'tags' => 'array',
+      'tags.*' => 'exists:tags,id',
     ]);
 
-    $article = new Article();
-    $article->title = $request->title;
-    $article->category = $request->category;
-    $article->content = $request->content;
-    $article->user_id = Auth::id();
-    $article->save();
+    $article = Article::create([
+      'title' => $validated['title'],
+      'category_id' => $validated['category'],
+      'content' => $validated['content'],
+    ]);
 
-    if ($request->filled('tags')) {
-      $tags = explode(',', $request->tags);
-      $tagIds = [];
-      foreach ($tags as $tagName) {
-        $tagName = trim($tagName);
-        if (!empty($tagName)) {
-          $tag = Tag::firstOrCreate(['name' => $tagName]);
-          $tagIds[] = $tag->id;
-        }
-      }
-      $article->tags()->attach($tagIds);
-    }
+    // Attach selected tags
+    $article->tags()->attach($validated['tags'] ?? []);
 
     return redirect()->route('articles.index')->with('success', 'L\'article a bien été créé');
   }
@@ -109,11 +114,10 @@ class ArticleController extends Controller
     $commentableType = Article::class;
 
     if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-      return view('admin.show', compact('article', 'commentableId', 'commentableType'));
+      return view('admin.article.show', compact('article', 'commentableId', 'commentableType'));
     } else {
       return view('public.show', compact('article', 'commentableId', 'commentableType'));
     }
-
   }
 
   /**
@@ -121,13 +125,16 @@ class ArticleController extends Controller
    */
   public function edit($id)
   {
-    $article = Article::findOrFail($id);
-    $tags = $article->tags->pluck('name')->toArray();
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
 
-    return view('admin.edit', [
-      'article' => $article,
-      'tags' => implode(',', $tags),
-    ]);
+    $article = Article::findOrFail($id);
+    $categories = Category::all();
+    $allTags = Tag::all();
+    $selectedTags = $article->tags->pluck('id')->toArray();
+
+    return view('admin.article.edit', compact('article', 'categories', 'allTags', 'selectedTags'));
   }
 
   /**
@@ -135,34 +142,26 @@ class ArticleController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $request->validate([
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
+    $validated = $request->validate([
       'title' => 'required|string|max:255',
-      'category' => 'required|string|max:255',
-      'tags' => 'nullable|string',
+      'category' => 'required|exists:categories,id',
       'content' => 'required|string',
+      'tags' => 'array',
+      'tags.*' => 'exists:tags,id',
     ]);
 
     $article = Article::findOrFail($id);
+    $article->update([
+      'title' => $validated['title'],
+      'category_id' => $validated['category'],
+      'content' => $validated['content'],
+    ]);
 
-    $article->title = $request->title;
-    $article->category = $request->category;
-    $article->content = $request->content;
-    $article->save();
-
-    if ($request->filled('tags')) {
-      $tags = explode(',', $request->tags);
-      $tagIds = [];
-      foreach ($tags as $tagName) {
-        $tagName = trim($tagName);
-        if (!empty($tagName)) {
-          $tag = Tag::firstOrCreate(['name' => $tagName]);
-          $tagIds[] = $tag->id;
-        }
-      }
-      $article->tags()->sync($tagIds);
-    } else {
-      $article->tags()->detach();
-    }
+    $article->tags()->sync($validated['tags'] ?? []);
 
     return redirect()->route('articles.index')->with('success', 'L\'article a bien été modifié');
   }
@@ -172,7 +171,10 @@ class ArticleController extends Controller
    */
   public function destroy(string $id)
   {
-    //
+    if (!Auth::check() || !Auth::user()->roles->contains('name', 'admin')) {
+      return redirect()->route('articles.index');
+    }
+
     $article = Article::where('id', $id);
     $article->delete();
     return redirect()->route('articles.index')->with('success', 'L\'article a bien été supprimé');
