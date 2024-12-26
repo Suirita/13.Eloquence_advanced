@@ -11,15 +11,16 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $categories = Category::paginate(10);
-        if(Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-            return view('admin.category.index', compact('categories'));
-        } else {
-            return view('Page introuvable');
+        $query = Category::query();
+        if($request->has('search') && $request->search != ''){
+            $query->where('name', 'like', '%' . $request->search . '%');
         }
+        $categories = $query->paginate(10);
+        return view('admin.category.index', compact('categories'));
+        
     }
 
     /**
