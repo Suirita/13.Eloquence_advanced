@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -14,9 +14,12 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $articles = Article::all();
-        $categories = Category::all();
-        return view('admin.category.index', compact('categories' , 'articles'));
+        $categories = Category::paginate(10);
+        if(Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
+            return view('admin.category.index', compact('categories'));
+        } else {
+            return view('Page introuvable');
+        }
     }
 
     /**
@@ -24,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -32,7 +35,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $category= new Category();
+        $category->name = $request->name ;
+        $category->save();
+        return redirect()->route('categories.index')->with('success', 'Catégorie créée avec succès');
     }
 
     /**
@@ -40,7 +49,8 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+    
+  
     }
 
     /**
@@ -65,5 +75,8 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
+        $category = Category::where('id', $id)->first();
+        $category->delete();
+        return redirect()->route('categories.index')->with('success', 'Catégorie supprimée avec succès');
     }
 }
