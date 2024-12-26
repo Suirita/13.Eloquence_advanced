@@ -109,17 +109,14 @@ class ArticleController extends Controller
    */
   public function show(string $id)
   {
-    $article = Article::where('id', $id)->firstOrFail();
+    $article = Article::with(['category', 'tags', 'comments'])->findOrFail($id);
     $commentableId = $article->id;
     $commentableType = Article::class;
-    $categories = $article->category;
-    $tags = $article->tags;
-    $comments = $article->comments;
 
     if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
-      return view('admin.article.show', compact('article', 'commentableId', 'commentableType', 'categories', 'tags', 'comments'));
+      return view('admin.article.show', compact('article', 'commentableId', 'commentableType'));
     } else {
-      return view('public.show', compact('article', 'commentableId', 'commentableType', 'categories', 'tags', 'comments'));
+      return view('public.show', compact('article', 'commentableId', 'commentableType'));
     }
   }
 

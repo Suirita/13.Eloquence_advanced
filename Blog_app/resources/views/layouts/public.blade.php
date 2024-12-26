@@ -15,7 +15,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles and Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/sass/public.scss'])
 </head>
 
 <body class="bg-gray-100 text-gray-800">
@@ -66,6 +66,13 @@
                 @yield('content')
             </div>
         </main>
+
+        <footer class="app-footer text-center">
+            <strong>
+                Copyright &copy; 2024&nbsp;
+            </strong>
+            All rights reserved.
+        </footer>
     </div>
 
     <script>
@@ -84,6 +91,7 @@
             }
         });
     </script>
+    @vite(['resources/js/public.js'])
 </body>
 
 </html>
