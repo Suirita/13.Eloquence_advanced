@@ -3,7 +3,8 @@
 @section('content')
 <div class="container ">
   <h1>Gestion des Tags</h1>
-  <div class="card-header d-flex pb-0 pt-3">
+  <div class="card">
+    <div class="card-header d-flex pb-0 pt-3">
       <!-- input search --> 
       <form method="GET" action="{{ route('tags.index') }}" class="d-flex mb-3 ">
                     <div class="form-group  ">
