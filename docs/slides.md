@@ -67,7 +67,7 @@
 
 ### **4. Analyse:**
 
-<img src="assets/Analyse.svg" alt="Introduction" style="width: 350px; height: auto;" />
+<img src="assets/Analyse.svg" alt="Introduction" style="width: 300px; height: auto;" />
 
 ---
 
