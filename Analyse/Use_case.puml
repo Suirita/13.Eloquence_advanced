@@ -7,16 +7,22 @@ actor Admin as admin
 rectangle "Blog System" {
     usecase "View All Articles" as UC_ViewArticles
     usecase "View Single Article" as UC_ViewArticle
-    usecase "Edit an Article" as UC_EditArticle
-    usecase "Create an Article" as UC_CreateArticle
+    usecase "Add comments" as UC_AddComments
+
+    usecase "Crud articles" as UC_CrudArticles
+    usecase "Crud categories" as UC_CrudCategories
+    usecase "Crud tags" as UC_CrudTags
+
 }
 
-user --> UC_ViewArticles
-user --> UC_ViewArticle
 
-admin --> UC_ViewArticles
-admin --> UC_ViewArticle
-admin --> UC_EditArticle
-admin --> UC_CreateArticle
+user -- UC_ViewArticle
+user -- UC_ViewArticles
+user -- UC_AddComments
+
+admin -- UC_CrudArticles
+admin -- UC_CrudCategories
+admin -- UC_CrudTags
+
 
 @enduml
