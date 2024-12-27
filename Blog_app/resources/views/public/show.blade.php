@@ -7,8 +7,10 @@
         <p class="text-lg text-gray-600 mt-2">Explorez les détails de l’article sélectionné.</p>
     </div>
     @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+        {{ session('success') }}
+    </div>
+@endif
     <!-- Article Card -->
     <div class="bg-white shadow-xl rounded-xl p-8 mt-8 border border-gray-200">
         <!-- Article Title -->
@@ -72,7 +74,7 @@
                     <h2 class="text-3xl font-semibold text-gray-800 text-center">Commentaires</h2>
 
                     @if(Auth::check())
-                    <form action="{{ route('comments.store') }}" method="GET" class="inline">
+                    <form action="{{ route('comments.store') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="commentable_id" value="{{ $commentableId }}">
                         <input type="hidden" name="commentable_type" value="{{ $commentableType }}">
